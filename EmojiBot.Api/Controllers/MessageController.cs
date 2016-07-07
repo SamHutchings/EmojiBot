@@ -12,7 +12,7 @@ namespace EmojiBot.Api.Controllers
 
 		public IHttpActionResult Post([FromBody]string message)
 		{
-			return Ok();
+			return Ok("Message Received");
 		}
 	}
 }
