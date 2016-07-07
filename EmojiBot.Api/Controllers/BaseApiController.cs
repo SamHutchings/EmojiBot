@@ -5,6 +5,5 @@ namespace EmojiBot.Api.Controllers
 {
 	public class BaseApiController : ApiController
 	{
-		static readonly ILog __log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 	}
 }
