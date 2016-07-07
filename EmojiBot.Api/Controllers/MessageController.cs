@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace EmojiBot.Api.Controllers
 {
 	[AllowAnonymous]
 	public class MessageController : ApiController
 	{
-		// POST api/values
-		public IHttpActionResult Post([FromBody]string value)
+		public IHttpActionResult Get()
 		{
-			return Ok("it's ok");
+			return Ok();
 		}
 
+		public IHttpActionResult Post([FromBody]string message)
+		{
+			return Ok();
+		}
 	}
 }
