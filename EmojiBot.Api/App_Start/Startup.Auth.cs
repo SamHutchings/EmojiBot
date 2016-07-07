@@ -8,8 +8,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using EmojiBot.Providers;
-using EmojiBot.Models;
+using EmojiBot.Api.Providers;
+using EmojiBot.Api.Models;
 
 namespace EmojiBot
 {

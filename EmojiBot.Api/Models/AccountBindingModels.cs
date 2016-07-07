@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace EmojiBot.Models
+namespace EmojiBot.Api.Models
 {
     // Models used as parameters to AccountController actions.
 
