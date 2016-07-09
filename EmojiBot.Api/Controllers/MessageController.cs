@@ -1,4 +1,5 @@
 ﻿using log4net;
+using System.Configuration;
 using System.Web;
 using System.Web.Http;
 
@@ -9,6 +10,13 @@ namespace EmojiBot.Api.Controllers
 	{
 		static readonly ILog __log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+		string _verificationCode;
+
+		public MessageController()
+		{
+			_verificationCode = ConfigurationManager.AppSettings["facebook.verification-code"];
+		}
+
 		public IHttpActionResult Get()
 		{
 			var verifyToken = HttpContext.Current.Request.QueryString["hub.verify"];
@@ -16,7 +24,7 @@ namespace EmojiBot.Api.Controllers
 
 			__log.InfoFormat("Request from facebook received: verify {0}, challenge {1}", verifyToken, challenge);
 
-			if (verifyToken == "")
+			if (verifyToken != _verificationCode)
 			{
 				return BadRequest("Verify token incorrect");
 			}

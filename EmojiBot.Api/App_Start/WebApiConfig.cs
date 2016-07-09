@@ -1,5 +1,7 @@
-﻿using System.Net.Http.Headers;
+﻿using EmojiBot.Api.Infrastructure;
+using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace EmojiBot
 {
@@ -10,6 +12,8 @@ namespace EmojiBot
 			config.MapHttpAttributeRoutes();
 
 			config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+
+			config.Services.Add(typeof(IExceptionLogger), new CustomExceptionLogger());
 
 			config.Routes.MapHttpRoute(
 				name: "DefaultApi",
