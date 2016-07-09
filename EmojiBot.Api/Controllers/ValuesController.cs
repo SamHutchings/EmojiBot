@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace EmojiBot.Controllers
+namespace EmojiBot.Api.Controllers
 {
     [Authorize]
     public class ValuesController : ApiController

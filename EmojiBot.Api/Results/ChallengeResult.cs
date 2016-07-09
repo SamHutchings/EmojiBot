@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace EmojiBot.Results
+namespace EmojiBot.Api.Results
 {
     public class ChallengeResult : IHttpActionResult
     {

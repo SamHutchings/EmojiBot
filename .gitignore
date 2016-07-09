@@ -41,6 +41,7 @@ packages/
 *.dgml
 *ncrunch*
 media/
+*.pubxml
 
 Web/*/media/
 

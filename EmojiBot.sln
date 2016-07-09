@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmojiBot.Api", "EmojiBot.Api\EmojiBot.Api.csproj", "{CDA5677D-78FD-411D-8AE0-49C417A1EB75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmojiBot.Web", "EmojiBot.Web\EmojiBot.Web.csproj", "{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmojiBot.Core", "EmojiBot.Core\EmojiBot.Core.csproj", "{4BC8F75B-7384-4941-B607-55C0BE769362}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BC8F75B-7384-4941-B607-55C0BE769362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BC8F75B-7384-4941-B607-55C0BE769362}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BC8F75B-7384-4941-B607-55C0BE769362}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BC8F75B-7384-4941-B607-55C0BE769362}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
