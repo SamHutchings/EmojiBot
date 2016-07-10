@@ -1,5 +1,8 @@
 ﻿using log4net;
 using System.Configuration;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 
@@ -17,19 +20,22 @@ namespace EmojiBot.Api.Controllers
 			_verificationCode = ConfigurationManager.AppSettings["facebook.verification-code"];
 		}
 
-		public IHttpActionResult Get()
+		public HttpResponseMessage Get()
 		{
-			var verifyToken = HttpContext.Current.Request.QueryString["hub.verify"];
+			var verifyToken = HttpContext.Current.Request.QueryString["hub.verify_token"];
 			var challenge = HttpContext.Current.Request.QueryString["hub.challenge"];
 
 			__log.InfoFormat("Request from facebook received: verify {0}, challenge {1}", verifyToken, challenge);
 
 			if (verifyToken != _verificationCode)
 			{
-				return BadRequest("Verify token incorrect");
+				return new HttpResponseMessage(HttpStatusCode.BadRequest);
 			}
 
-			return Ok(challenge);
+			var response = new HttpResponseMessage(HttpStatusCode.OK);
+			response.Content = new StringContent(challenge);
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+			return response;
 		}
 
 		public IHttpActionResult Post([FromBody]string message)
