@@ -2,8 +2,8 @@
 {
 	public class SendMessageModel
 	{
-		public Recipient recipient { get; set; }
+		public User recipient { get; set; }
 
-		public Message message { get; set; }
+		public OutboundMessage message { get; set; }
 	}
 }

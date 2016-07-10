@@ -1,6 +1,6 @@
 ﻿namespace EmojiBot.Api.Models.Facebook
 {
-	public class Message
+	public class OutboundMessage
 	{
 		public string text { get; set; }
 	}

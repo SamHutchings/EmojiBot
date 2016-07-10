@@ -1,6 +1,6 @@
 ﻿namespace EmojiBot.Api.Models.Facebook
 {
-	public class Recipient
+	public class User
 	{
 		public string id { get; set; }
 	}
