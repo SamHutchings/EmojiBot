@@ -35,13 +35,13 @@
 		public UserDetails GetUserDetails(string id)
 		{
 			var response = CallFacebookAPI(
-				"/1437149932977618",
+				"/" + id,
 				null,
 				new Dictionary<string, string>
 				{
 					{ "fields","first_name,last_name,locale" },
 				},
-				Method.POST);
+				Method.GET);
 
 			if (response.StatusCode != HttpStatusCode.OK)
 				return null;

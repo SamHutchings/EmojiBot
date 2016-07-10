@@ -48,14 +48,23 @@ namespace EmojiBot.Api.Controllers
 
 			__log.InfoFormat("Recieved message {0} from {1}", model.message.text, model.sender.id);
 
-			_facebookService.SendMessage(new SendMessageModel
+			var outboundMessage = new SendMessageModel { recipient = new Models.Facebook.User { id = model.sender.id } };
+			var inboundText = model.message.text.ToLower();
+
+			if (inboundText.Contains("help"))
 			{
-				recipient = new Models.Facebook.User { id = model.sender.id },
-				message = new Models.Facebook.Outbound.Message
-				{
-					text = String.Format("Hi{0}. Do you want emojis like {1}?", GetName(model.sender.id), model.message.text)
-				}
-			});
+				outboundMessage.message = HelpMessage(model.sender.id);
+			}
+			else if (inboundText.Contains("hi") || inboundText.Contains("hello"))
+			{
+				outboundMessage.message = HelloMessage(model.sender.id);
+			}
+			else
+			{
+				outboundMessage.message = EmojiSearch(inboundText);
+			}
+
+			_facebookService.SendMessage(outboundMessage);
 		}
 
 		string GetName(string id)
@@ -66,6 +75,50 @@ namespace EmojiBot.Api.Controllers
 				return "";
 
 			return String.Format(" {0}", details.first_name);
+		}
+
+		Models.Facebook.Outbound.Message HelpMessage(string id)
+		{
+			return new Models.Facebook.Outbound.Message { text = String.Format("Hi{0}. To use this bot, please ask for an emoji you want. For example, send \"dragon emoji\".", GetName(id)) };
+		}
+
+		Models.Facebook.Outbound.Message HelloMessage(string id)
+		{
+			return new Models.Facebook.Outbound.Message { text = String.Format("Hi{0}. What emoji would you like?", GetName(id)) };
+		}
+
+		Models.Facebook.Outbound.Message EmojiSearch(string text)
+		{
+			if (String.IsNullOrWhiteSpace(text))
+				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!", text) };
+
+			var searchTerm = text.ToLower().Replace("please", "").Replace("emoji", "");
+
+			if (String.IsNullOrWhiteSpace(searchTerm))
+				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!", searchTerm) };
+
+			if (searchTerm.Contains("dragon"))
+			{
+				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 🐉. Thanks for using emojibot!", searchTerm) };
+			}
+			else if (searchTerm.Contains("ghost"))
+			{
+				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 👻. Thanks for using emojibot!", searchTerm) };
+			}
+			else if (searchTerm.Contains("100") || searchTerm.Contains("hundred"))
+			{
+				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 💯. Thanks for using emojibot!", searchTerm) };
+			}
+			else if (searchTerm.Contains("smug"))
+			{
+				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 🤔. Thanks for using emojibot!", searchTerm) };
+			}
+			else if (searchTerm.Contains("poo"))
+			{
+				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 💩. Thanks for using emojibot!", searchTerm) };
+			}
+
+			return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches {0}, sorry!", searchTerm) };
 		}
 	}
 }
