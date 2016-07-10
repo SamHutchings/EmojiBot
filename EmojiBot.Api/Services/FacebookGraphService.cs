@@ -1,8 +1,11 @@
 ﻿namespace EmojiBot.Api.Services
 {
 	using log4net;
-	using Models.Facebook;
+	using Models.Facebook.Inbound;
+	using Models.Facebook.Outbound;
+	using Newtonsoft.Json;
 	using RestSharp;
+	using System.Collections.Generic;
 	using System.Configuration;
 	using System.Net;
 
@@ -21,7 +24,7 @@
 
 		public bool SendMessage(SendMessageModel model)
 		{
-			var response = CallFacebookAPI("/me/messages", model, Method.POST);
+			var response = CallFacebookAPI("/me/messages", model, null, Method.POST);
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return true;
@@ -29,19 +32,43 @@
 			return false;
 		}
 
-		public IRestResponse CallFacebookAPI(string resource, object data, Method method)
+		public UserDetails GetUserDetails(string id)
+		{
+			var response = CallFacebookAPI(
+				"/1437149932977618",
+				null,
+				new Dictionary<string, string>
+				{
+					{ "fields","first_name,last_name,locale" },
+				},
+				Method.POST);
+
+			if (response.StatusCode != HttpStatusCode.OK)
+				return null;
+
+			return JsonConvert.DeserializeObject<UserDetails>(response.Content);
+		}
+
+		public IRestResponse CallFacebookAPI(string resource, object body, IDictionary<string, string> queryStringParams, Method method)
 		{
 			var client = new RestClient(_url);
-
 			var request = new RestRequest(resource, method);
-
-			request.AddQueryParameter("access_token", _pageToken);
 
 			request.RequestFormat = DataFormat.Json;
 
-			request.AddJsonBody(data);
+			request.AddQueryParameter("access_token", _pageToken);
 
-			var response = client.Post(request);
+			if (queryStringParams != null)
+			{
+				foreach (var item in queryStringParams)
+				{
+					request.AddQueryParameter(item.Key, item.Value);
+				}
+			}
+
+			request.AddJsonBody(body);
+
+			var response = client.Execute(request);
 
 			if (response.StatusCode == HttpStatusCode.OK)
 			{

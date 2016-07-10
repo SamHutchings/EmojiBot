@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EmojiBot.Api.Models.Facebook
+namespace EmojiBot.Api.Models.Facebook.Inbound
 {
 	public class WebhookModel
 	{

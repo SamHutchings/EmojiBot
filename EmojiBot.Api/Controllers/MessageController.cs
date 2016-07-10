@@ -1,13 +1,9 @@
-﻿using EmojiBot.Api.Models.Facebook;
+﻿using EmojiBot.Api.Models.Facebook.Inbound;
+using EmojiBot.Api.Models.Facebook.Outbound;
 using EmojiBot.Api.Services;
 using log4net;
 using System;
-using System.Configuration;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
 using System.Web.Http;
 
 namespace EmojiBot.Api.Controllers
@@ -55,11 +51,21 @@ namespace EmojiBot.Api.Controllers
 			_facebookService.SendMessage(new SendMessageModel
 			{
 				recipient = new Models.Facebook.User { id = model.sender.id },
-				message = new OutboundMessage
+				message = new Models.Facebook.Outbound.Message
 				{
-					text = String.Format("You want emojis like {0}?", model.message.text)
+					text = String.Format("Hi{0}. Do you want emojis like {1}?", GetName(model.sender.id), model.message.text)
 				}
 			});
+		}
+
+		string GetName(string id)
+		{
+			var details = _facebookService.GetUserDetails(id);
+
+			if (details == null)
+				return "";
+
+			return String.Format(" {0}", details.first_name);
 		}
 	}
 }

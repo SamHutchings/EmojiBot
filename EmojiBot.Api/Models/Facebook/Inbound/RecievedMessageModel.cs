@@ -1,4 +1,4 @@
-﻿namespace EmojiBot.Api.Models.Facebook
+﻿namespace EmojiBot.Api.Models.Facebook.Inbound
 {
 	public class RecievedMessageModel
 	{
@@ -6,6 +6,6 @@
 	
 		public User recipient { get; set; }
 
-		public InboundMessage message { get; set; }
+		public Message message { get; set; }
 	}
 }

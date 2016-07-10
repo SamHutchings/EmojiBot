@@ -1,4 +1,5 @@
-﻿using EmojiBot.Api.Models.Facebook;
+﻿using EmojiBot.Api.Models.Facebook.Inbound;
+using EmojiBot.Api.Models.Facebook.Outbound;
 
 namespace EmojiBot.Api.Services
 {
@@ -13,5 +14,7 @@ namespace EmojiBot.Api.Services
 		/// <param name="model"></param>
 		/// <returns></returns>
 		bool SendMessage(SendMessageModel model);
+
+		UserDetails GetUserDetails(string id);
 	}
 }
