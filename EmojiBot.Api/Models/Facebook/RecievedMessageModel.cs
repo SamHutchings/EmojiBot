@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace EmojiBot.Api.Models.Facebook
+﻿namespace EmojiBot.Api.Models.Facebook
 {
 	public class RecievedMessageModel
 	{

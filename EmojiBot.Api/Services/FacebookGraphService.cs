@@ -11,10 +11,12 @@
 		static readonly ILog __log = LogManager.GetLogger(typeof(FacebookGraphService));
 
 		string _url;
+		string _pageToken;
 
 		public FacebookGraphService()
 		{
 			_url = ConfigurationManager.AppSettings["facebook.api-url"];
+			_pageToken = ConfigurationManager.AppSettings["facebook.page-token"];
 		}
 
 		public bool SendMessage(SendMessageModel model)
@@ -33,15 +35,11 @@
 
 			var request = new RestRequest(resource, method);
 
+			request.AddQueryParameter("access_token", _pageToken);
+
 			request.RequestFormat = DataFormat.Json;
 
-			if (data != null)
-			{
-				foreach (var item in data)
-				{
-					request.AddParameter(item.Key, item.Value);
-				}
-			}
+			request.AddJsonBody(data);
 
 			var response = client.Post(request);
 
@@ -51,7 +49,7 @@
 			}
 			else
 			{
-				__log.ErrorFormat("Twitter API failure: {0}", response.Content);
+				__log.ErrorFormat("Facebook API failure: {0}", response.Content);
 			}
 
 			return response;
