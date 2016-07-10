@@ -1,8 +1,8 @@
 ﻿namespace EmojiBot.Api.Services
 {
 	using log4net;
+	using Models.Facebook;
 	using RestSharp;
-	using System.Collections.Generic;
 	using System.Configuration;
 	using System.Net;
 
@@ -17,12 +17,17 @@
 			_url = ConfigurationManager.AppSettings["facebook.api-url"];
 		}
 
-		public bool SendMessage()
+		public bool SendMessage(SendMessageModel model)
 		{
-			return true;
+			var response = CallFacebookAPI("/me/messages", model, Method.POST);
+
+			if (response.StatusCode == HttpStatusCode.OK)
+				return true;
+
+			return false;
 		}
 
-		public IRestResponse CallFacebookAPI(string resource, IDictionary<string, object> data, Method method)
+		public IRestResponse CallFacebookAPI(string resource, object data, Method method)
 		{
 			var client = new RestClient(_url);
 

@@ -2,8 +2,8 @@
 {
 	public class SendMessageModel
 	{
-		public string RecipientId { get; set; }
+		public Recipient recipient { get; set; }
 
-		public string Content { get; set; }
+		public Message message { get; set; }
 	}
 }
