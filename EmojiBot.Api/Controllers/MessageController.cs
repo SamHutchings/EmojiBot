@@ -43,10 +43,14 @@ namespace EmojiBot.Api.Controllers
 
 		void ProcessReceivedMessage(RecievedMessageModel model)
 		{
-			__log.InfoFormat("Recieved message {0} from {1}", model.message.text, model.sender.id);
+			if (model.message == null || String.IsNullOrWhiteSpace(model.message.text))
+			{
+				__log.InfoFormat("Recieved from {0} with no content - ignoring", model.sender.id);
 
-			if (model.message == null || String.IsNullOrWhiteSpace(model.message.text)
-                return;
+				return;
+			}
+
+			__log.InfoFormat("Recieved message {0} from {1}", model.message.text, model.sender.id);
 
 			_facebookService.SendMessage(new SendMessageModel
 			{
