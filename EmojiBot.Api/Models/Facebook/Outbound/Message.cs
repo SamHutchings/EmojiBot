@@ -1,4 +1,4 @@
-﻿namespace EmojiBot.Api.Models.Facebook
+﻿namespace EmojiBot.Api.Models.Facebook.Outbound
 {
 	public class Message
 	{

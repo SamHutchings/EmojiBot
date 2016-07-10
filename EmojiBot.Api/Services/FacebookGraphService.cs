@@ -1,8 +1,11 @@
 ﻿namespace EmojiBot.Api.Services
 {
 	using log4net;
-	using Models.Facebook;
+	using Models.Facebook.Inbound;
+	using Models.Facebook.Outbound;
+	using Newtonsoft.Json;
 	using RestSharp;
+	using System.Collections.Generic;
 	using System.Configuration;
 	using System.Net;
 
@@ -11,15 +14,17 @@
 		static readonly ILog __log = LogManager.GetLogger(typeof(FacebookGraphService));
 
 		string _url;
+		string _pageToken;
 
 		public FacebookGraphService()
 		{
 			_url = ConfigurationManager.AppSettings["facebook.api-url"];
+			_pageToken = ConfigurationManager.AppSettings["facebook.page-token"];
 		}
 
 		public bool SendMessage(SendMessageModel model)
 		{
-			var response = CallFacebookAPI("/me/messages", model, Method.POST);
+			var response = CallFacebookAPI("/me/messages", model, null, Method.POST);
 
 			if (response.StatusCode == HttpStatusCode.OK)
 				return true;
@@ -27,23 +32,43 @@
 			return false;
 		}
 
-		public IRestResponse CallFacebookAPI(string resource, object data, Method method)
+		public UserDetails GetUserDetails(string id)
+		{
+			var response = CallFacebookAPI(
+				"/" + id,
+				null,
+				new Dictionary<string, string>
+				{
+					{ "fields","first_name,last_name,locale" },
+				},
+				Method.GET);
+
+			if (response.StatusCode != HttpStatusCode.OK)
+				return null;
+
+			return JsonConvert.DeserializeObject<UserDetails>(response.Content);
+		}
+
+		public IRestResponse CallFacebookAPI(string resource, object body, IDictionary<string, string> queryStringParams, Method method)
 		{
 			var client = new RestClient(_url);
-
 			var request = new RestRequest(resource, method);
 
 			request.RequestFormat = DataFormat.Json;
 
-			if (data != null)
+			request.AddQueryParameter("access_token", _pageToken);
+
+			if (queryStringParams != null)
 			{
-				foreach (var item in data)
+				foreach (var item in queryStringParams)
 				{
-					request.AddParameter(item.Key, item.Value);
+					request.AddQueryParameter(item.Key, item.Value);
 				}
 			}
 
-			var response = client.Post(request);
+			request.AddJsonBody(body);
+
+			var response = client.Execute(request);
 
 			if (response.StatusCode == HttpStatusCode.OK)
 			{
@@ -51,7 +76,7 @@
 			}
 			else
 			{
-				__log.ErrorFormat("Twitter API failure: {0}", response.Content);
+				__log.ErrorFormat("Facebook API failure: {0}", response.Content);
 			}
 
 			return response;
