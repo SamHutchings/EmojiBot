@@ -3,6 +3,7 @@ using EmojiBot.Api.Services;
 using log4net;
 using System;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,9 +24,29 @@ namespace EmojiBot.Api.Controllers
 			_facebookService = new FacebookGraphService();
 		}
 
-		public IHttpActionResult Post([FromBody]RecievedMessageModel model)
+		public IHttpActionResult Post([FromBody]WebhookModel model)
+		{
+			__log.InfoFormat("Webhook post: {0} entries", model.entry.Count());
+
+			foreach (var entry in model.entry)
+			{
+				__log.InfoFormat("Entry with {0} events", entry.messaging.Count());
+
+				foreach (var message in entry.messaging)
+				{
+					ProcessReceivedMessage(message);
+				}
+			}
+
+			return Ok();
+		}
+
+		void ProcessReceivedMessage(RecievedMessageModel model)
 		{
 			__log.InfoFormat("Recieved message {0} from {1}", model.message.text, model.sender.id);
+
+			if (model.message == null || String.IsNullOrWhiteSpace(model.message.text)
+                return;
 
 			_facebookService.SendMessage(new SendMessageModel
 			{
@@ -35,8 +56,6 @@ namespace EmojiBot.Api.Controllers
 					text = String.Format("You want emojis like {0}?", model.message.text)
 				}
 			});
-
-			return Ok("Message Received");
 		}
 	}
 }
