@@ -1,12 +1,14 @@
-﻿using System.Web.Mvc;
+﻿using EmojiBot.Core.Domain;
+using NHibernate.Linq;
+using System.Web.Mvc;
 
 namespace EmojiBot.Web.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController : BaseController
 	{
 		public ActionResult Index()
 		{
-			return View();
+			return View(DatabaseSession.Query<Emoji>());
 		}
 
 		public ActionResult About()
