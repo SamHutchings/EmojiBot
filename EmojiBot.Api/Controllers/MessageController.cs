@@ -1,7 +1,7 @@
 ﻿using EmojiBot.Api.Models.Facebook.Inbound;
 using EmojiBot.Api.Models.Facebook.Outbound;
-using EmojiBot.Api.Services;
-using log4net;
+using EmojiBot.Core.Domain;
+using NHibernate.Linq;
 using System;
 using System.Linq;
 using System.Web.Http;
@@ -11,22 +11,13 @@ namespace EmojiBot.Api.Controllers
 	[AllowAnonymous]
 	public class MessageController : BaseApiController
 	{
-		static readonly ILog __log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-		IFacebookGraphService _facebookService;
-
-		public MessageController()
-		{
-			_facebookService = new FacebookGraphService();
-		}
-
 		public IHttpActionResult Post([FromBody]WebhookModel model)
 		{
-			__log.InfoFormat("Webhook post: {0} entries", model.entry.Count());
+			Log.InfoFormat("Webhook post: {0} entries", model.entry.Count());
 
 			foreach (var entry in model.entry)
 			{
-				__log.InfoFormat("Entry with {0} events", entry.messaging.Count());
+				Log.InfoFormat("Entry with {0} events", entry.messaging.Count());
 
 				foreach (var message in entry.messaging)
 				{
@@ -41,12 +32,12 @@ namespace EmojiBot.Api.Controllers
 		{
 			if (model.message == null || String.IsNullOrWhiteSpace(model.message.text))
 			{
-				__log.InfoFormat("Recieved from {0} with no content - ignoring", model.sender.id);
+				Log.InfoFormat("Recieved from {0} with no content - ignoring", model.sender.id);
 
 				return;
 			}
 
-			__log.InfoFormat("Recieved message {0} from {1}", model.message.text, model.sender.id);
+			Log.InfoFormat("Recieved message {0} from {1}", model.message.text, model.sender.id);
 
 			var outboundMessage = new SendMessageModel { recipient = new Models.Facebook.User { id = model.sender.id } };
 			var inboundText = model.message.text.ToLower();
@@ -64,12 +55,12 @@ namespace EmojiBot.Api.Controllers
 				outboundMessage.message = EmojiSearch(inboundText);
 			}
 
-			_facebookService.SendMessage(outboundMessage);
+			FacebookGraphService.SendMessage(outboundMessage);
 		}
 
 		string GetName(string id)
 		{
-			var details = _facebookService.GetUserDetails(id);
+			var details = FacebookGraphService.GetUserDetails(id);
 
 			if (details == null)
 				return "";
@@ -92,33 +83,19 @@ namespace EmojiBot.Api.Controllers
 			if (String.IsNullOrWhiteSpace(text))
 				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!", text) };
 
-			var searchTerm = text.ToLower().Replace("please", "").Replace("emoji", "");
+			var searchTerms = text.ToLower().Replace("please", "").Replace("emoji", "").Split(' ');
 
-			if (String.IsNullOrWhiteSpace(searchTerm))
-				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!", searchTerm) };
+			if (!searchTerms.Any(x => !String.IsNullOrWhiteSpace(x)))
+				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!") };
 
-			if (searchTerm.Contains("dragon"))
+			var results = Session.Query<Emoji>();
+
+			if (results.Any())
 			{
-				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 🐉. Thanks for using emojibot!", searchTerm) };
-			}
-			else if (searchTerm.Contains("ghost"))
-			{
-				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 👻. Thanks for using emojibot!", searchTerm) };
-			}
-			else if (searchTerm.Contains("100") || searchTerm.Contains("hundred"))
-			{
-				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 💯. Thanks for using emojibot!", searchTerm) };
-			}
-			else if (searchTerm.Contains("smug"))
-			{
-				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 🤔. Thanks for using emojibot!", searchTerm) };
-			}
-			else if (searchTerm.Contains("poo"))
-			{
-				return new Models.Facebook.Outbound.Message { text = String.Format("Here's your emoji: 💩. Thanks for using emojibot!", searchTerm) };
+				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!") };
 			}
 
-			return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches {0}, sorry!", searchTerm) };
+			return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches {0}, sorry!", String.Join(" ", searchTerms)) };
 		}
 	}
 }

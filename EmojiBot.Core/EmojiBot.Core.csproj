@@ -42,6 +42,10 @@
       <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Npgsql, Version=3.1.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.3.1.6\lib\net451\Npgsql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,9 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\CustomPersistenceModel.cs" />
-    <Compile Include="Data\DatabaseSession.cs" />
-    <Compile Include="Data\IDatabaseSession.cs" />
     <Compile Include="Data\EmojiBotMappingConfiguration.cs" />
+    <Compile Include="Data\SessionSourceFactory.cs" />
+    <Compile Include="Domain\Emoji.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\EmojiResult.cs" />
