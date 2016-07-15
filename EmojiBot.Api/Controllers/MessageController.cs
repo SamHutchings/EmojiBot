@@ -1,6 +1,8 @@
 ﻿using EmojiBot.Api.Models.Facebook.Inbound;
 using EmojiBot.Api.Models.Facebook.Outbound;
+using EmojiBot.Api.Services;
 using EmojiBot.Core.Domain;
+using log4net;
 using NHibernate.Linq;
 using System;
 using System.Linq;
@@ -83,9 +85,9 @@ namespace EmojiBot.Api.Controllers
 			if (String.IsNullOrWhiteSpace(text))
 				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!", text) };
 
-			var searchTerms = text.ToLower().Replace("please", "").Replace("emoji", "").Split(' ');
+			var searchTerms = text.ToLower().Replace("please", "").Replace("emoji", "").Split(' ').Where(x => !String.IsNullOrWhiteSpace(x));
 
-			if (!searchTerms.Any(x => !String.IsNullOrWhiteSpace(x)))
+			if (!searchTerms.Any())
 				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!") };
 
 			var results = Session.Query<Emoji>();

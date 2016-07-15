@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="Data\CustomPersistenceModel.cs" />
     <Compile Include="Data\EmojiBotMappingConfiguration.cs" />
-    <Compile Include="Data\SessionSourceFactory.cs" />
     <Compile Include="Domain\Emoji.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
