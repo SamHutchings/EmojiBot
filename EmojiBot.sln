@@ -12,21 +12,28 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Live|Any CPU = Live|Any CPU
+		Staging|Any CPU = Staging|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Live|Any CPU.ActiveCfg = Live|Any CPU
+		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Live|Any CPU.Build.0 = Live|Any CPU
+		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
+		{CDA5677D-78FD-411D-8AE0-49C417A1EB75}.Staging|Any CPU.Build.0 = Staging|Any CPU
 		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Live|Any CPU.ActiveCfg = Live|Any CPU
+		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Live|Any CPU.Build.0 = Live|Any CPU
+		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
+		{9872F7EF-AC8E-4906-B2BA-04D1A91698F6}.Staging|Any CPU.Build.0 = Staging|Any CPU
 		{4BC8F75B-7384-4941-B607-55C0BE769362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4BC8F75B-7384-4941-B607-55C0BE769362}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4BC8F75B-7384-4941-B607-55C0BE769362}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BC8F75B-7384-4941-B607-55C0BE769362}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BC8F75B-7384-4941-B607-55C0BE769362}.Live|Any CPU.ActiveCfg = Live|Any CPU
+		{4BC8F75B-7384-4941-B607-55C0BE769362}.Live|Any CPU.Build.0 = Live|Any CPU
+		{4BC8F75B-7384-4941-B607-55C0BE769362}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
+		{4BC8F75B-7384-4941-B607-55C0BE769362}.Staging|Any CPU.Build.0 = Staging|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
