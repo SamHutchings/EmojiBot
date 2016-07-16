@@ -1,10 +1,11 @@
 ﻿
     create table "Emoji" (
         Id  serial,
-       Created timestamp,
-       EmojiCharacters varchar(3),
-       Description varchar,
-       Keywords varchar,
+       Created timestamp not null,
+       Characters varchar(10),
+       Description text,
+       Name text,
+       Keywords text,
        primary key (Id)
     )
 
