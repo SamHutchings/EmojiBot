@@ -43,7 +43,7 @@
 				},
 				Method.GET);
 
-			if (response.StatusCode != HttpStatusCode.OK)
+			if (response == null)
 				return null;
 
 			return JsonConvert.DeserializeObject<UserDetails>(response.Content);
@@ -70,13 +70,11 @@
 
 			var response = client.Execute(request);
 
-			if (response.StatusCode == HttpStatusCode.OK)
-			{
-				__log.DebugFormat("Facebook API success: {0}", response.Content);
-			}
-			else
+			if (response.StatusCode != HttpStatusCode.OK)
 			{
 				__log.ErrorFormat("Facebook API failure: {0}", response.Content);
+
+				return null;
 			}
 
 			return response;
