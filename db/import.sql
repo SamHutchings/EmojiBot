@@ -1,4 +1,4 @@
-﻿INSERT INTO "Emoji" (Characters, Name, Keywords)
+﻿INSERT INTO "Emoji" (Characters, Name, Keywords, Created)
 VALUES
 ('😀', 'Grinning Face', 'face,grin', current_timestamp),
 ('😁', 'Grinning Face With Smiling Eyes', 'eye, face, grin, smile', current_timestamp),
@@ -1870,4 +1870,6 @@ VALUES
 ('🇾🇹', ' Mayotte Flag', 'flag, mayotte', current_timestamp),
 ('🇿🇦', ' South Africa Flag', 'flag, south, south africa', current_timestamp),
 ('🇿🇲', 'Zambia Flag', 'flag, zambia', current_timestamp),
-('🇿🇼', 'Zimbabwe Flag', 'flag, zimbabwe', current_timestamp)
+('🇿🇼', 'Zimbabwe Flag', 'flag, zimbabwe', current_timestamp);
+
+UPDATE "Emoji" SET Keywords = REPLACE(Keywords, ', ', ',');
