@@ -1,8 +1,6 @@
 ﻿using EmojiBot.Api.Models.Facebook.Inbound;
 using EmojiBot.Api.Models.Facebook.Outbound;
-using EmojiBot.Api.Services;
 using EmojiBot.Core.Domain;
-using log4net;
 using NHibernate.Linq;
 using System;
 using System.Linq;
@@ -99,7 +97,7 @@ namespace EmojiBot.Api.Controllers
 				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!") };
 			}
 
-			return new Models.Facebook.Outbound.Message { text = String.Format("No problem! Here's the {0} emoji:", searchTerms.First(), result.Characters) };
+			return new Models.Facebook.Outbound.Message { text = String.Format("No problem! Here's the {0} emoji: {1}", searchTerms.First(), result.Characters) };
 		}
 	}
 }
