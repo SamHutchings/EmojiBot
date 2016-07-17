@@ -17,8 +17,10 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>@item.Characters</tr>
-            <tr>@item.Name</tr>
+            <tr>
+                <td>@item.Characters</td>
+                <td>@item.Name</td>
+            </tr>
         }
     </tbody>
 </table>
