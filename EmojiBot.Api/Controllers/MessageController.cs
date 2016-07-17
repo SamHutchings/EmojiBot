@@ -90,14 +90,16 @@ namespace EmojiBot.Api.Controllers
 			if (!searchTerms.Any())
 				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!") };
 
-			var results = Session.Query<Emoji>();
+			var result = Session.Query<Emoji>()
+				.Where(x => x.Keywords.ToLower().Contains(searchTerms.First()) || x.Name.ToLower().Contains(searchTerms.First()))
+				.FirstOrDefault();
 
-			if (results.Any())
+			if (result == null)
 			{
 				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!") };
 			}
 
-			return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches {0}, sorry!", String.Join(" ", searchTerms)) };
+			return new Models.Facebook.Outbound.Message { text = String.Format("No problem! Here's the {0} emoji:", searchTerms.First(), result.Characters) };
 		}
 	}
 }
