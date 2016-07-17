@@ -1,13 +1,9 @@
 ﻿namespace EmojiBot.Web.Areas.Admin.Controllers
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Web;
 	using System.Web.Mvc;
+	using Web.Controllers;
 
-	[Authorize]
-	public class BaseAdminController : Controller
+	public class BaseAdminController : BaseController
 	{
 	}
 }

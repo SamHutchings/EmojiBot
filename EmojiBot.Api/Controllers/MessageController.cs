@@ -1,5 +1,4 @@
 ﻿using EmojiBot.Api.Models.Facebook.Inbound;
-using EmojiBot.Api.Models.Facebook.Outbound;
 using EmojiBot.Core.Domain;
 using NHibernate.Linq;
 using System;
@@ -53,8 +52,6 @@ namespace EmojiBot.Api.Controllers
 			{
 				SendEmojiSearchMessage(model.sender.id, inboundText);
 			}
-
-			FacebookGraphService.SendMessage(outboundMessage);
 		}
 
 		string GetName(string id)

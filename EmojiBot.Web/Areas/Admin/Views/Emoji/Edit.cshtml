@@ -1,0 +1,15 @@
+﻿@model EmojiEditModel
+@{
+    ViewBag.Title = "EmojiBot";
+}
+
+<h1>Edit @Model.Characters</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+
+    <div class="buttons">
+        <input type="submit" value="Save" />
+    </div>
+}
