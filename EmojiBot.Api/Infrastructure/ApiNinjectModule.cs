@@ -1,5 +1,6 @@
 ﻿using EmojiBot.Api.Services;
 using EmojiBot.Core.Data;
+using EmojiBot.Core.Extensions;
 using FluentNHibernate;
 using FluentNHibernate.Cfg.Db;
 using log4net;
@@ -16,7 +17,14 @@ namespace EmojiBot.Api.Infrastructure
 	{
 		public override void Load()
 		{
-			Bind<IFacebookGraphService>().To<FacebookGraphService>();
+			if (ConfigurationManager.AppSettings["disable-facebook"].ToBoolean(false))
+			{
+				Bind<IFacebookGraphService>().To<DisconnectedFacebookGraphService>();
+			}
+			else
+			{
+				Bind<IFacebookGraphService>().To<FacebookGraphService>();
+			}
 
 			Bind<ISessionFactory>().ToMethod(c => GetSessionFactory()).InSingletonScope();
 

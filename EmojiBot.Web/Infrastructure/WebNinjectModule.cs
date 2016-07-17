@@ -9,9 +9,9 @@ using Ninject.Web.Common;
 using System;
 using System.Configuration;
 
-namespace EmojiBot.Api.Infrastructure
+namespace EmojiBot.Web.Infrastructure
 {
-	public class ApiNinjectModule : NinjectModule
+	public class WebNinjectModule : NinjectModule
 	{
 		public override void Load()
 		{

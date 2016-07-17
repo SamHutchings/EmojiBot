@@ -58,6 +58,7 @@
     <Compile Include="Data\EmojiBotMappingConfiguration.cs" />
     <Compile Include="Domain\Emoji.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Search\EmojiResult.cs" />
   </ItemGroup>

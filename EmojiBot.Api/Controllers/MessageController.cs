@@ -1,8 +1,6 @@
 ﻿using EmojiBot.Api.Models.Facebook.Inbound;
 using EmojiBot.Api.Models.Facebook.Outbound;
-using EmojiBot.Api.Services;
 using EmojiBot.Core.Domain;
-using log4net;
 using NHibernate.Linq;
 using System;
 using System.Linq;
@@ -90,14 +88,16 @@ namespace EmojiBot.Api.Controllers
 			if (!searchTerms.Any())
 				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!") };
 
-			var results = Session.Query<Emoji>();
+			var result = Session.Query<Emoji>()
+				.Where(x => x.Keywords.ToLower().Contains(searchTerms.First()) || x.Name.ToLower().Contains(searchTerms.First()))
+				.FirstOrDefault();
 
-			if (results.Any())
+			if (result == null)
 			{
 				return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches, sorry!") };
 			}
 
-			return new Models.Facebook.Outbound.Message { text = String.Format("We couldn't find an emoji that matches {0}, sorry!", String.Join(" ", searchTerms)) };
+			return new Models.Facebook.Outbound.Message { text = String.Format("No problem! Here's the {0} emoji: {1}", searchTerms.First(), result.Characters) };
 		}
 	}
 }
