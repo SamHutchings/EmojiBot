@@ -22,8 +22,10 @@
 			_pageToken = ConfigurationManager.AppSettings["facebook.page-token"];
 		}
 
-		public bool SendMessage(SendMessageModel model)
+		public bool SendMessage(string recpientId, string text)
 		{
+			var model = new SendMessageModel { recipient = new Models.Facebook.User { id = recpientId }, message = new Models.Facebook.Outbound.Message { text = text } };
+
 			var response = CallFacebookAPI("/me/messages", model, null, Method.POST);
 
 			if (response.StatusCode == HttpStatusCode.OK)

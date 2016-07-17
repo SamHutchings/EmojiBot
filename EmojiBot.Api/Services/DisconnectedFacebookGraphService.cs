@@ -15,7 +15,7 @@
 		{
 		}
 
-		public bool SendMessage(SendMessageModel model)
+		public bool SendMessage(string recipientId, string text)
 		{
 			return true;
 		}
