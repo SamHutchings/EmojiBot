@@ -19,6 +19,8 @@ namespace EmojiBot.Web.Infrastructure
 
 			Bind<ILog>().ToMethod(x => LogManager.GetLogger(x.Request.Target.Member.DeclaringType));
 
+			Bind<IAuthenticationProvider>().To<AuthenticationProvider>();
+
 			Bind<ISession>().ToMethod(ctx => ctx.Kernel.Get<ISessionFactory>().OpenSession())
 				.InRequestScope()
 				.OnActivation(s => s.BeginTransaction())
