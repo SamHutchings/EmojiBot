@@ -76,8 +76,12 @@ namespace EmojiBot.Web.Controllers
 
 			if (!AuthenticationProvider.ChangePassword(AuthenticatedUser, model.OldPassword, model.NewPassword))
 			{
+				ModelState.AddModelError("", "Your password could not be changed. Please ensure your old password is correct");
 
+				return View(model);
 			}
+
+			return RedirectToAction("Index", "Home");
 		}
 
 		public ActionResult LogOut()
