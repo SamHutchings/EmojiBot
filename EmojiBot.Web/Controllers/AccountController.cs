@@ -1,6 +1,4 @@
-﻿using EmojiBot.Web.Infrastructure;
-using EmojiBot.Web.Models;
-using Ninject;
+﻿using EmojiBot.Web.Models;
 using System;
 using System.Web.Mvc;
 
@@ -9,9 +7,6 @@ namespace EmojiBot.Web.Controllers
 	[Authorize]
 	public class AccountController : BaseController
 	{
-		[Inject]
-		public IAuthenticationProvider _authenticationProvider { get; set; }
-
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
@@ -28,12 +23,14 @@ namespace EmojiBot.Web.Controllers
 				return View(model);
 			}
 
-			if (!_authenticationProvider.ValidateUser(model.Email, model.Password))
+			if (!AuthenticationProvider.ValidateUser(model.Email, model.Password))
 			{
 				ModelState.AddModelError("*", "We couldn't find your account. Check your password and try again");
+
+				return View(model);
 			}
 
-			_authenticationProvider.SignIn(model.Email, model.RememberMe);
+			AuthenticationProvider.SignIn(model.Email, model.RememberMe);
 
 			if (!String.IsNullOrWhiteSpace(returnUrl))
 				return Redirect(returnUrl);
@@ -54,7 +51,7 @@ namespace EmojiBot.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = _authenticationProvider.CreateUser(model.Email, model.Password);
+				var user = AuthenticationProvider.CreateUser(model.Email, model.Password);
 
 				DatabaseSession.Save(user);
 
@@ -67,9 +64,25 @@ namespace EmojiBot.Web.Controllers
 			return View(model);
 		}
 
+		public ActionResult ChangePassword()
+		{
+			return View();
+		}
+
+		public ActionResult ChangePassword(ChangePasswordModel model)
+		{
+			if (!ModelState.IsValid)
+				return View(model);
+
+			if (!AuthenticationProvider.ChangePassword(AuthenticatedUser, model.OldPassword, model.NewPassword))
+			{
+
+			}
+		}
+
 		public ActionResult LogOut()
 		{
-			_authenticationProvider.SignOut();
+			AuthenticationProvider.SignOut();
 
 			return RedirectToAction("Index", "Home");
 		}

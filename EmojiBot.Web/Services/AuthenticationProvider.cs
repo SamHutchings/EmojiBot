@@ -38,6 +38,17 @@ namespace EmojiBot.Web.Infrastructure
 			return user;
 		}
 
+		public User GetAuthenticatedUser()
+		{
+			if (AuthenticationManager.User != null)
+			{
+				var user = AuthenticationManager.User.Claims.First().Value;
+				return null;
+			}
+
+			return null;
+		}
+
 		public bool ValidateUser(string username, string password)
 		{
 			var user = _session.Query<User>().Where(x => x.Email == username).FirstOrDefault();
@@ -49,6 +60,17 @@ namespace EmojiBot.Web.Infrastructure
 				return true;
 
 			return false;
+		}
+
+		public bool ChangePassword(User user, string oldPassword, string newPassword)
+		{
+			if (SaltPassword(oldPassword, user.Salt) != user.Password)
+				return false;
+
+			user.Salt = GetSalt();
+			user.Password = SaltPassword(newPassword, user.Salt);
+
+			return true;
 		}
 
 		public void SignIn(string username, bool isPersistent = false)
