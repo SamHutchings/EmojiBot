@@ -16,6 +16,7 @@ namespace EmojiBot.Web
 				AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
 				LoginPath = new PathString("/Account/Login"),
 				Provider = new CookieAuthenticationProvider(),
+				CookieName = "EmojibotAuth",
 			});
 
 			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;

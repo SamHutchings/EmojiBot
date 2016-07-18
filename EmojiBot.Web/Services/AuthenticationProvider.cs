@@ -45,7 +45,10 @@ namespace EmojiBot.Web.Infrastructure
 			if (user == null)
 				return false;
 
-			return true;
+			if (SaltPassword(password, user.Salt) == user.Password)
+				return true;
+
+			return false;
 		}
 
 		public void SignIn(string username, bool isPersistent = false)

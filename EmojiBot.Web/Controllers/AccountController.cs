@@ -58,6 +58,9 @@ namespace EmojiBot.Web.Controllers
 
 				DatabaseSession.Save(user);
 
+				DatabaseSession.Transaction.Commit();
+				DatabaseSession.BeginTransaction();
+
 				return RedirectToAction("Login");
 			}
 
