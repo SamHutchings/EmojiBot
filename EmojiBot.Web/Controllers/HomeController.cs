@@ -10,5 +10,13 @@ namespace EmojiBot.Web.Controllers
 		{
 			return View(DatabaseSession.Query<Emoji>());
 		}
+
+		public ActionResult TopBar()
+		{
+			if (AuthenticatedUser == null)
+				return new EmptyResult();
+
+			return PartialView();
+		}
 	}
 }

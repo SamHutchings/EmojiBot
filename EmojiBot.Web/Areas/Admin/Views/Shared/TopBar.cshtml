@@ -1,0 +1,10 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            @Html.ActionLink("Emojis", "Index", "", new { area = "Admin" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Messages", "Index", "Messages", new { area = "Admin" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Back to Site", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Log Out", "LogOut", "Account", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+    </div>
+</div>

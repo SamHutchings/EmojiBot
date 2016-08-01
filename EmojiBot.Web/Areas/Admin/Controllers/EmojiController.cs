@@ -1,10 +1,9 @@
 ﻿using EmojiBot.Core.Domain;
-using EmojiBot.Web.Areas.Admin.Controllers;
 using EmojiBot.Web.Areas.Admin.Models;
 using NHibernate.Linq;
 using System.Web.Mvc;
 
-namespace EmojiBot.Web.Controllers
+namespace EmojiBot.Web.Areas.Admin.Controllers
 {
 	public class EmojiController : BaseAdminController
 	{
@@ -13,6 +12,7 @@ namespace EmojiBot.Web.Controllers
 			return View(DatabaseSession.Query<Emoji>());
 		}
 
+		[HttpGet]
 		public ActionResult Edit(int id)
 		{
 			var emoji = DatabaseSession.Get<Emoji>(id);
@@ -25,6 +25,7 @@ namespace EmojiBot.Web.Controllers
 			return View(model);
 		}
 
+		[HttpPost]
 		public ActionResult Edit(int id, EmojiEditModel model)
 		{
 			var emoji = DatabaseSession.Get<Emoji>(id);

@@ -42,8 +42,9 @@ namespace EmojiBot.Web.Infrastructure
 		{
 			if (AuthenticationManager.User != null)
 			{
-				var user = AuthenticationManager.User.Claims.First().Value;
-				return null;
+				var userName = AuthenticationManager.User.Claims.First().Value;
+
+				return _session.Query<User>().Where(x => x.Email.ToLower() == userName.ToLower()).FirstOrDefault();
 			}
 
 			return null;
