@@ -1,4 +1,5 @@
 ﻿using EmojiBot.Core.Data;
+using EmojiBot.Core.Search;
 using FluentNHibernate;
 using FluentNHibernate.Cfg.Db;
 using log4net;
@@ -20,6 +21,8 @@ namespace EmojiBot.Web.Infrastructure
 			Bind<ILog>().ToMethod(x => LogManager.GetLogger(x.Request.Target.Member.DeclaringType));
 
 			Bind<IAuthenticationProvider>().To<AuthenticationProvider>();
+
+			Bind<IEmojiSearchService>().To<EmojiSearchService>();
 
 			Bind<ISession>().ToMethod(ctx => ctx.Kernel.Get<ISessionFactory>().OpenSession())
 				.InRequestScope()

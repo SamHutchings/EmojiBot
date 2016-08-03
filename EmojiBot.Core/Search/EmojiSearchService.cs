@@ -10,13 +10,13 @@ namespace EmojiBot.Core.Search
 	public class EmojiSearchService : IEmojiSearchService
 	{
 		private ElasticClient _client;
-		private ISession _session;
 
 		public EmojiSearchService()
 		{
-			_client = new ElasticClient(new ConnectionSettings(
-				new Uri("https://localhost:9200")
-			));
+			var settings = new ConnectionSettings()
+				.DefaultIndex("emoji");
+
+			_client = new ElasticClient(settings);
 		}
 
 		public bool Index(Emoji emoji)
@@ -33,8 +33,7 @@ namespace EmojiBot.Core.Search
 					.Term("Keywords", term)
 				)
 			)
-			.Documents
-			.Select(x => new Emoji());
+			.Documents;
 		}
 	}
 }
