@@ -30,10 +30,10 @@ namespace EmojiBot.Api.Infrastructure
 
 			Bind<ILog>().ToMethod(x => LogManager.GetLogger(x.Request.Target.Member.DeclaringType));
 
-			Bind<ISession>().ToMethod(ctx => ctx.Kernel.Get<ISessionFactory>().OpenSession())
+			Bind<ISession>().ToMethod(c => c.Kernel.Get<ISessionFactory>().OpenSession())
 				.InRequestScope()
 				.OnActivation(s => s.BeginTransaction())
-				.OnDeactivation((c, s) =>
+				.OnDeactivation((s) =>
 				{
 					try
 					{
