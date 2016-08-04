@@ -7,6 +7,8 @@ namespace EmojiBot.Core.Search
 	{
 		bool Index(Emoji emoji);
 
+		bool Index(IEnumerable<Emoji> emoji);
+
 		IEnumerable<Emoji> Search(string term);
 	}
 }

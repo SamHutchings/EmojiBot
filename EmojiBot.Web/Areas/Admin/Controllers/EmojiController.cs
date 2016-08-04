@@ -3,6 +3,7 @@ using EmojiBot.Core.Search;
 using EmojiBot.Web.Areas.Admin.Models;
 using NHibernate.Linq;
 using Ninject;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace EmojiBot.Web.Areas.Admin.Controllers
@@ -10,7 +11,7 @@ namespace EmojiBot.Web.Areas.Admin.Controllers
 	public class EmojiController : BaseAdminController
 	{
 		[Inject]
-		IEmojiSearchService EmojiSearchService { get; set; }
+		public IEmojiSearchService EmojiSearchService { get; set; }
 
 		public ActionResult Index()
 		{
@@ -45,6 +46,16 @@ namespace EmojiBot.Web.Areas.Admin.Controllers
 			EmojiSearchService.Index(emoji);
 
 			return View(model);
+		}
+
+		public ActionResult IndexAll()
+		{
+			var allEmojis = DatabaseSession.Query<Emoji>()
+				.ToList();
+
+			EmojiSearchService.Index(allEmojis);
+
+			return Content("Indexed!!!!");
 		}
 	}
 }
