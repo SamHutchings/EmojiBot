@@ -18,5 +18,20 @@ namespace EmojiBot.Web.Controllers
 		{
 			get { return AuthenticationProvider.GetAuthenticatedUser(); }
 		}
+
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			if (!filterContext.IsChildAction)
+				DatabaseSession.BeginTransaction();
+		}
+
+		protected override void OnResultExecuted(ResultExecutedContext filterContext)
+		{
+			if (!filterContext.IsChildAction)
+			{
+				DatabaseSession.Transaction.Commit();
+				DatabaseSession.Dispose();
+			}
+		}
 	}
 }
