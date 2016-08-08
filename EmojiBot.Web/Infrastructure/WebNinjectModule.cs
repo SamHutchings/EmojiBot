@@ -24,8 +24,7 @@ namespace EmojiBot.Web.Infrastructure
 
 			Bind<IEmojiSearchService>().To<EmojiSearchService>();
 
-			Bind<ISession>().ToMethod(c => c.Kernel.Get<ISessionFactory>().OpenSession())
-				.InRequestScope();
+			Bind<ISession>().ToMethod(c => c.Kernel.Get<ISessionFactory>().OpenSession()).InRequestScope();
 		}
 
 		public static ISessionFactory GetSessionFactory()

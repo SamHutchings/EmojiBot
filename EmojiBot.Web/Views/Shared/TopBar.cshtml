@@ -2,6 +2,9 @@
     <div class="container">
         <div class="navbar-header">
             @Html.ActionLink("Admin", "Index", "Emoji", new { area = "Admin" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-header pull-right">
+            @Html.ActionLink("Change Password", "ChangePassword", "Account", new { area = "" }, new { @class = "navbar-brand" })
             @Html.ActionLink("Log Out", "LogOut", "Account", new { area = "" }, new { @class = "navbar-brand" })
         </div>
     </div>

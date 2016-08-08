@@ -8,6 +8,7 @@ namespace EmojiBot.Web.Controllers
 	public class AccountController : BaseController
 	{
 		[AllowAnonymous]
+		[HttpGet]
 		public ActionResult Login(string returnUrl)
 		{
 			return View();
@@ -38,37 +39,14 @@ namespace EmojiBot.Web.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		[AllowAnonymous]
-		public ActionResult Register()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public ActionResult Register(RegisterViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				var user = AuthenticationProvider.CreateUser(model.Email, model.Password);
-
-				DatabaseSession.Save(user);
-
-				DatabaseSession.Transaction.Commit();
-				DatabaseSession.BeginTransaction();
-
-				return RedirectToAction("Login");
-			}
-
-			return View(model);
-		}
-
+		[HttpGet]
 		public ActionResult ChangePassword()
 		{
 			return View();
 		}
 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult ChangePassword(ChangePasswordModel model)
 		{
 			if (!ModelState.IsValid)

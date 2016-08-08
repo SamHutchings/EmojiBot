@@ -1,10 +1,14 @@
-﻿namespace EmojiBot.Web.Areas.Admin.Models
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace EmojiBot.Web.Areas.Admin.Models
 {
 	public class EmojiEditModel
 	{
 		/// <summary>
 		/// The actual characters for the emoji
 		/// </summary>
+		[Display(Name = "Characters")]
 		public string Characters { get; set; }
 
 		/// <summary>
