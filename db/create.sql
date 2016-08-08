@@ -7,7 +7,7 @@
        Name text,
        Keywords text,
        primary key (Id)
-    )
+    );
 
     create table "User" (
         Id  serial,
@@ -16,4 +16,4 @@
        Password varchar(255),
        Salt varchar(255),
        primary key (Id)
-    )
+    );

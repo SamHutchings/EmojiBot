@@ -13,7 +13,7 @@ namespace EmojiBot.Api.Services
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		bool SendMessage(SendMessageModel model);
+		bool SendMessage(string recipientId, string text);
 
 		UserDetails GetUserDetails(string id);
 	}

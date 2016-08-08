@@ -1,4 +1,5 @@
 ﻿using EmojiBot.Core.Data;
+using EmojiBot.Core.Search;
 using FluentNHibernate;
 using FluentNHibernate.Cfg.Db;
 using log4net;
@@ -9,9 +10,9 @@ using Ninject.Web.Common;
 using System;
 using System.Configuration;
 
-namespace EmojiBot.Api.Infrastructure
+namespace EmojiBot.Web.Infrastructure
 {
-	public class ApiNinjectModule : NinjectModule
+	public class WebNinjectModule : NinjectModule
 	{
 		public override void Load()
 		{
@@ -19,25 +20,11 @@ namespace EmojiBot.Api.Infrastructure
 
 			Bind<ILog>().ToMethod(x => LogManager.GetLogger(x.Request.Target.Member.DeclaringType));
 
-			Bind<ISession>().ToMethod(ctx => ctx.Kernel.Get<ISessionFactory>().OpenSession())
-				.InRequestScope()
-				.OnActivation(s => s.BeginTransaction())
-				.OnDeactivation((c, s) =>
-				{
-					try
-					{
-						s.Transaction.Commit();
-					}
-					catch (Exception e)
-					{
-						Kernel.Get<ILog>().Error(e);
+			Bind<IAuthenticationProvider>().To<AuthenticationProvider>();
 
-						s.Transaction.Rollback();
-					}
+			Bind<IEmojiSearchService>().To<EmojiSearchService>();
 
-					s.Close();
-					s.Dispose();
-				});
+			Bind<ISession>().ToMethod(c => c.Kernel.Get<ISessionFactory>().OpenSession()).InRequestScope();
 		}
 
 		public static ISessionFactory GetSessionFactory()

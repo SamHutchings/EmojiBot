@@ -11,18 +11,12 @@ namespace EmojiBot.Web.Controllers
 			return View(DatabaseSession.Query<Emoji>());
 		}
 
-		public ActionResult About()
+		public ActionResult TopBar()
 		{
-			ViewBag.Message = "Your application description page.";
+			if (AuthenticatedUser == null)
+				return new EmptyResult();
 
-			return View();
-		}
-
-		public ActionResult Contact()
-		{
-			ViewBag.Message = "Your contact page.";
-
-			return View();
+			return PartialView();
 		}
 	}
 }
