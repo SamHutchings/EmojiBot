@@ -13,7 +13,7 @@ namespace EmojiBot.Web.Controllers
 		[HttpPost]
 		public ActionResult Index(EmojiSearchModel model)
 		{
-			var results = EmojiSearchService.Search(model.Term);
+			var results = EmojiSearchService.Search(model.Term.Split(',', ' ', ';'));
 
 			ViewBag.Term = model.Term;
 

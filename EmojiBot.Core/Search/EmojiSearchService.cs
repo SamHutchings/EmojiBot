@@ -29,13 +29,13 @@ namespace EmojiBot.Core.Search
 			return _client.Index(emoji).IsValid;
 		}
 
-		public IEnumerable<Emoji> Search(string term)
+		public IEnumerable<Emoji> Search(string[] terms)
 		{
 			return _client.Search<Emoji>(s => s
 				.From(0)
 				.Size(10)
-				.Query(q => q
-					.Term("keywords", term)
+				.Query(q =>
+					q.Terms(c => c.Field(e => e.Keywords).Terms(terms).Boost(1.2)) || q.Terms(c => c.Field(e => e.Name).Terms(terms).Boost(1.1)) || q.Terms(c => c.Field(e => e.Description).Terms(terms))
 				)
 			)
 			.Documents;
