@@ -35,7 +35,7 @@ namespace EmojiBot.Core.Search
 				.From(0)
 				.Size(10)
 				.Query(q => q
-					.Term("Keywords", term)
+					.Term("keywords", term)
 				)
 			)
 			.Documents;
