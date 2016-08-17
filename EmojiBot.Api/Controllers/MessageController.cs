@@ -41,13 +41,13 @@ namespace EmojiBot.Api.Controllers
 
 			Log.InfoFormat("Recieved message {0} from {1}", model.message.text, model.sender.id);
 
-			var inboundText = model.message.text.ToLower();
+			var inboundText = model.message.text.ToLower().Trim();
 
 			if (inboundText.Contains("help "))
 			{
 				SendHelpMessage(model.sender.id);
 			}
-			else if (inboundText.Contains("hi ") || inboundText.Contains("hello "))
+			else if (inboundText == "hi" || inboundText.Contains("hi ") || inboundText == "hello" || inboundText.Contains("hello "))
 			{
 				SendHelloMessage(model.sender.id);
 			}
@@ -85,15 +85,17 @@ namespace EmojiBot.Api.Controllers
 				return;
 			}
 
-			var searchTerms = text.ToLower().Replace("please", "").Replace("emoji", "").Split(' ').Where(x => !String.IsNullOrWhiteSpace(x));
+			var searchTerm = text.ToLower().Replace("please", "").Replace("emoji", "");
 
-			if (!searchTerms.Any())
+			var terms = searchTerm.Split(' ', ',', ';').Where(x => !String.IsNullOrWhiteSpace(x));
+
+			if (!terms.Any())
 			{
 				FacebookGraphService.SendMessage(id, String.Format("We couldn't find an emoji that matches, sorry!", text));
 				return;
 			}
 
-			var results = EmojiSearchService.Search(searchTerms);
+			var results = EmojiSearchService.Search(terms);
 
 			if (!results.Any())
 			{
@@ -101,7 +103,7 @@ namespace EmojiBot.Api.Controllers
 				return;
 			}
 
-			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's the closest match for {0}:", String.Join(", ", searchTerms)));
+			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's the closest match for {0}:", searchTerm));
 			FacebookGraphService.SendMessage(id, results.First().Characters);
 		}
 	}
