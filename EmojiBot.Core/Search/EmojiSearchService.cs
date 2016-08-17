@@ -29,7 +29,7 @@ namespace EmojiBot.Core.Search
 			return _client.Index(emoji).IsValid;
 		}
 
-		public IEnumerable<Emoji> Search(string[] terms)
+		public IEnumerable<Emoji> Search(IEnumerable<string> terms)
 		{
 			return _client.Search<Emoji>(s => s
 				.From(0)

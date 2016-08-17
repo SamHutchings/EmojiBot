@@ -1,15 +1,18 @@
-﻿using EmojiBot.Api.Models.Facebook.Inbound;
-using EmojiBot.Core.Domain;
-using NHibernate.Linq;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Http;
+using EmojiBot.Api.Models.Facebook.Inbound;
+using EmojiBot.Core.Search;
+using Ninject;
 
 namespace EmojiBot.Api.Controllers
 {
 	[AllowAnonymous]
 	public class MessageController : BaseApiController
 	{
+		[Inject]
+		public IEmojiSearchService EmojiSearchService { get; set; }
+
 		public IHttpActionResult Post([FromBody]WebhookModel model)
 		{
 			Log.InfoFormat("Webhook post: {0} entries", model.entry.Count());
@@ -90,18 +93,16 @@ namespace EmojiBot.Api.Controllers
 				return;
 			}
 
-			var result = Session.Query<Emoji>()
-				.Where(x => x.Keywords.ToLower().Contains(searchTerms.First()) || x.Name.ToLower().Contains(searchTerms.First()))
-				.FirstOrDefault();
+			var results = EmojiSearchService.Search(searchTerms);
 
-			if (result == null)
+			if (!results.Any())
 			{
 				FacebookGraphService.SendMessage(id, String.Format("We couldn't find an emoji that matches, sorry!", text));
 				return;
 			}
 
-			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's the {0} emoji:", searchTerms.First()));
-			FacebookGraphService.SendMessage(id, result.Characters);
+			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's closest match for {0}:", String.Join(", ", searchTerms)));
+			FacebookGraphService.SendMessage(id, results.First().Characters);
 		}
 	}
 }
