@@ -1,18 +1,13 @@
-﻿using EmojiBot.Core.Domain;
-using EmojiBot.Core.Search;
+﻿using System.Linq;
+using System.Web.Mvc;
+using EmojiBot.Core.Domain;
 using EmojiBot.Web.Areas.Admin.Models;
 using NHibernate.Linq;
-using Ninject;
-using System.Linq;
-using System.Web.Mvc;
 
 namespace EmojiBot.Web.Areas.Admin.Controllers
 {
 	public class EmojiController : BaseAdminController
 	{
-		[Inject]
-		public IEmojiSearchService EmojiSearchService { get; set; }
-
 		public ActionResult Index()
 		{
 			return View(DatabaseSession.Query<Emoji>());
