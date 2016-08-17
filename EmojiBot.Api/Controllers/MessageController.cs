@@ -101,7 +101,7 @@ namespace EmojiBot.Api.Controllers
 				return;
 			}
 
-			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's closest match for {0}:", String.Join(", ", searchTerms)));
+			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's the closest match for {0}:", String.Join(", ", searchTerms)));
 			FacebookGraphService.SendMessage(id, results.First().Characters);
 		}
 	}

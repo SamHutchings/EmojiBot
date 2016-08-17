@@ -48,9 +48,19 @@ namespace EmojiBot.Web.Areas.Admin.Controllers
 			var allEmojis = DatabaseSession.Query<Emoji>()
 				.ToList();
 
-			EmojiSearchService.Index(allEmojis);
+			var result = false;
 
-			return Content("Indexed!!!!");
+			foreach (var item in allEmojis)
+			{
+				result |= EmojiSearchService.Index(item);
+			}
+
+			if (result)
+			{
+				return Content("Indexed");
+			}
+
+			return Content("Could not index");
 		}
 	}
 }
