@@ -191,10 +191,13 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\EmojiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\EmojiSearchModel.cs" />
+    <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Services\IAuthenticationProvider.cs" />
     <Compile Include="Services\AuthenticationProvider.cs" />
     <Compile Include="Infrastructure\WebNinjectModule.cs" />
@@ -243,6 +246,8 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Shared\TopBar.cshtml" />
+    <Content Include="Views\Search\Header.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
     <None Include="Web.Live.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

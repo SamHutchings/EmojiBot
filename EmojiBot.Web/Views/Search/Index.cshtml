@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Emoji>
+@{
+	ViewBag.Title = "EmojiBot Search: " + ViewBag.Term;
+}
+
+<h1>@ViewBag.Title</h1>
+
+<table class="table">
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@item.Characters</td>
+				<td>@item.Name</td>
+			</tr>
+		}
+	</tbody>
+</table>
