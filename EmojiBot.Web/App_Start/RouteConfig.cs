@@ -14,9 +14,18 @@ namespace EmojiBot.Web
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
 			routes.MapRoute(
+				name: "Emoji",
+				url: "{controller}/{action}/{characters}",
+				defaults: new { controller = "Emoji", action = "Details" },
+				constraints: new { controller = @"Emoji", action = @"Details", },
+				namespaces: new[] { "EmojiBot.Web.Controllers" }
+			);
+
+			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
-				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+				namespaces: new[] { "EmojiBot.Web.Controllers" }
 			);
 		}
 	}
