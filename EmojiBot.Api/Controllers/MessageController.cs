@@ -103,8 +103,16 @@ namespace EmojiBot.Api.Controllers
 				return;
 			}
 
+			var firstResult = results.First();
+
 			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's the closest match for {0}:", searchTerm));
-			FacebookGraphService.SendMessage(id, results.First().Characters);
+			FacebookGraphService.SendMessage(id, firstResult.Characters);
+
+			if (!String.IsNullOrWhiteSpace(firstResult.Variations))
+			{
+				FacebookGraphService.SendMessage(id, "And here are the other variations:");
+				FacebookGraphService.SendMessage(id, firstResult.Variations);
+			}
 		}
 	}
 }

@@ -12,6 +12,8 @@
     @Html.Action("TopBar", "Home", new { area = "" })
     @Html.Action("Header", "Search", new { area = "" })
     <div class="container body-content">
+        <h1>@ViewBag.Title</h1>
+
         @RenderBody()
     </div>
 
