@@ -1,15 +1,18 @@
-﻿using EmojiBot.Api.Models.Facebook.Inbound;
-using EmojiBot.Core.Domain;
-using NHibernate.Linq;
-using System;
+﻿using System;
 using System.Linq;
 using System.Web.Http;
+using EmojiBot.Api.Models.Facebook.Inbound;
+using EmojiBot.Core.Search;
+using Ninject;
 
 namespace EmojiBot.Api.Controllers
 {
 	[AllowAnonymous]
 	public class MessageController : BaseApiController
 	{
+		[Inject]
+		public IEmojiSearchService EmojiSearchService { get; set; }
+
 		public IHttpActionResult Post([FromBody]WebhookModel model)
 		{
 			Log.InfoFormat("Webhook post: {0} entries", model.entry.Count());
@@ -38,13 +41,13 @@ namespace EmojiBot.Api.Controllers
 
 			Log.InfoFormat("Recieved message {0} from {1}", model.message.text, model.sender.id);
 
-			var inboundText = model.message.text.ToLower();
+			var inboundText = model.message.text.ToLower().Trim();
 
 			if (inboundText.Contains("help "))
 			{
 				SendHelpMessage(model.sender.id);
 			}
-			else if (inboundText.Contains("hi ") || inboundText.Contains("hello "))
+			else if (inboundText == "hi" || inboundText.Contains("hi ") || inboundText == "hello" || inboundText.Contains("hello "))
 			{
 				SendHelloMessage(model.sender.id);
 			}
@@ -82,26 +85,34 @@ namespace EmojiBot.Api.Controllers
 				return;
 			}
 
-			var searchTerms = text.ToLower().Replace("please", "").Replace("emoji", "").Split(' ').Where(x => !String.IsNullOrWhiteSpace(x));
+			var searchTerm = text.ToLower().Replace("please", "").Replace("emoji", "");
 
-			if (!searchTerms.Any())
+			var terms = searchTerm.Split(' ', ',', ';').Where(x => !String.IsNullOrWhiteSpace(x));
+
+			if (!terms.Any())
 			{
 				FacebookGraphService.SendMessage(id, String.Format("We couldn't find an emoji that matches, sorry!", text));
 				return;
 			}
 
-			var result = Session.Query<Emoji>()
-				.Where(x => x.Keywords.ToLower().Contains(searchTerms.First()) || x.Name.ToLower().Contains(searchTerms.First()))
-				.FirstOrDefault();
+			var results = EmojiSearchService.Search(terms);
 
-			if (result == null)
+			if (!results.Any())
 			{
 				FacebookGraphService.SendMessage(id, String.Format("We couldn't find an emoji that matches, sorry!", text));
 				return;
 			}
 
-			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's the {0} emoji:", searchTerms.First()));
-			FacebookGraphService.SendMessage(id, result.Characters);
+			var firstResult = results.First();
+
+			FacebookGraphService.SendMessage(id, String.Format("No problem! Here's the closest match for {0}:", searchTerm));
+			FacebookGraphService.SendMessage(id, firstResult.Characters);
+
+			if (!String.IsNullOrWhiteSpace(firstResult.Variations))
+			{
+				FacebookGraphService.SendMessage(id, "And here are the other variations:");
+				FacebookGraphService.SendMessage(id, firstResult.Variations);
+			}
 		}
 	}
 }

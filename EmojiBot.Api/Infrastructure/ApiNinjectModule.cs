@@ -10,6 +10,7 @@ using Ninject.Modules;
 using Ninject.Web.Common;
 using System;
 using System.Configuration;
+using EmojiBot.Core.Search;
 
 namespace EmojiBot.Api.Infrastructure
 {
@@ -25,6 +26,8 @@ namespace EmojiBot.Api.Infrastructure
 			{
 				Bind<IFacebookGraphService>().To<FacebookGraphService>();
 			}
+
+			Bind<IEmojiSearchService>().To<EmojiSearchService>();
 
 			Bind<ISessionFactory>().ToMethod(c => GetSessionFactory()).InSingletonScope();
 

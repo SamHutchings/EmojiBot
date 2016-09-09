@@ -1,4 +1,5 @@
 ﻿using EmojiBot.Core.Domain;
+using EmojiBot.Core.Search;
 using EmojiBot.Web.Infrastructure;
 using NHibernate;
 using Ninject;
@@ -13,6 +14,9 @@ namespace EmojiBot.Web.Controllers
 
 		[Inject]
 		public IAuthenticationProvider AuthenticationProvider { get; set; }
+
+		[Inject]
+		public IEmojiSearchService EmojiSearchService { get; set; }
 
 		public User AuthenticatedUser
 		{

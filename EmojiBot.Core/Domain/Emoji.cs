@@ -24,6 +24,11 @@
 		public virtual string Description { get; set; }
 
 		/// <summary>
+		/// The variations for the emoji 
+		/// </summary>
+		public virtual string Variations { get; set; }
+
+		/// <summary>
 		/// Search keywords for the emoji
 		/// </summary>
 		public virtual string Keywords { get; set; }
