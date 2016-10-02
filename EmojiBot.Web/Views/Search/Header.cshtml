@@ -1,13 +1,15 @@
 ﻿@model EmojiSearchModel
 
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div id="header" class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
-				<div id="imaginary_container">
+            <div id="title" class="col-sm-3">
+                <h2>EMOJIBOT</h2>
+            </div>
+			<div id="search" class="col-sm-6">
 					@using (Html.BeginForm("Index", "Search", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 					{
-						<div class="input-group header-input-group">
+						<div class="input-group">
 							<input type="text" class="form-control" placeholder="Search" name="Term">
 							<span class="input-group-addon">
 								<button type="submit">
@@ -16,7 +18,6 @@
 							</span>
 						</div>
 					}
-				</div>
 			</div>
 		</div>
 	</div>

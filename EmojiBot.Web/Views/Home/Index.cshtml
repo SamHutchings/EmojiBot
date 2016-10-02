@@ -1,22 +1,14 @@
 ﻿@model IEnumerable<Emoji>
-@{
-    ViewBag.Title = "EmojiBot";
-}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Emoji</th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Characters</td>
-                <td>@item.Name</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<ul class="list-inline">
+    @foreach (var item in Model)
+    {
+        <li class="emoji-box">
+            <span class="emoji">@item.Characters</span>
+            <br />
+            <a href="@Url.Action("Details", "Emoji", new { characters = item.Characters })">
+                <span>@item.Name</span>
+            </a>
+        </li>
+    }
+</ul>

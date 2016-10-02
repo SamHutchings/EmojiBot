@@ -17,16 +17,53 @@
 }
 
 /* header rules */
-.header-input-group .input-group-addon{
-    background: white; 
-}
-.header-input-group .form-control{
-	border-right:0; 
-	box-shadow:0 0 0; 
-	border-color:#ccc;
+
+.header {
+    height: 80px;
 }
 
-.header-input-group button{
-    border:0;
-    background:transparent;
+#title h1 {
+    color: white;
+}
+
+#search {
+    margin-top: 15px;
+}
+
+#search .input-group .input-group-addon {
+    background: white;
+}
+
+#search .input-group .form-control {
+    border-right: 0;
+    box-shadow: 0 0 0;
+    border-color: #ccc;
+}
+
+#search .input-group button {
+    border: 0;
+    background: transparent;
+}
+
+.emoji-box {
+    margin-bottom: 10px;
+    text-align: center;
+    height: 60px;
+    width: 12.5%;
+}
+
+.emoji-box a {
+    text-decoration: none;
+}
+
+.emoji-box span:not(.emoji) {
+    height: 20px;
+    font-size: 11px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+span.emoji {
+    height: 40px;
+    font-size: 30px;
 }
