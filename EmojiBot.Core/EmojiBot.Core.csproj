@@ -66,8 +66,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Conventions\CustomForeignKeyConvention.cs" />
     <Compile Include="Data\CustomPersistenceModel.cs" />
     <Compile Include="Data\EmojiBotMappingConfiguration.cs" />
+    <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\Emoji.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

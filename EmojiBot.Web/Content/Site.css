@@ -18,12 +18,13 @@
 
 /* header rules */
 
-.header {
-    height: 80px;
+#header .container {
+    height: 60px;
 }
 
-#title h1 {
-    color: white;
+#title h2 {
+    background: "/images/logo.png";
+    margin-top: 15px;
 }
 
 #search {

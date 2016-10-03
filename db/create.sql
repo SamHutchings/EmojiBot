@@ -8,6 +8,13 @@
        Keywords text,
        primary key (Id)
     );
+	
+    create table "Category" (
+        Id  serial,
+       Created timestamp not null,
+       Name varchar(255),
+       primary key (Id)
+    );
 
     create table "User" (
         Id  serial,
@@ -17,3 +24,12 @@
        Salt varchar(255),
        primary key (Id)
     );
+
+    alter table "Emoji" add "category_id" int;
+
+
+    alter table "Emoji"
+    add constraint FK_Emoji_Category
+    foreign key (category_id)
+    references "Category" (id)
+    on delete cascade;
