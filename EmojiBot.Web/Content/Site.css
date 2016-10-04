@@ -16,19 +16,24 @@
     white-space: normal;
 }
 
+.body-content {
+    margin-top: 15px;
+}
 /* header rules */
 
 #header .container {
     height: 60px;
 }
 
-#title h2 {
-    background: "/images/logo.png";
-    margin-top: 15px;
+#title {
+    height: 50px;
+    background: url('/images/logo.png') no-repeat;
+    background-size: contain;
+    margin-top: 5px;
 }
 
 #search {
-    margin-top: 15px;
+    margin-top: 13px;
 }
 
 #search .input-group .input-group-addon {
@@ -47,10 +52,11 @@
 }
 
 .emoji-box {
+    margin-top:10px;
     margin-bottom: 10px;
     text-align: center;
     height: 60px;
-    width: 12.5%;
+    width: 15%;
 }
 
 .emoji-box a {

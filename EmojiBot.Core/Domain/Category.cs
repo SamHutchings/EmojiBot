@@ -8,6 +8,8 @@
 
 		public virtual DateTime Created { get; set; }
 
+		public virtual int SortOrder { get; set; }
+
 		public virtual string Name { get; set; }
 	}
 }

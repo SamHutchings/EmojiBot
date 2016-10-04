@@ -1,5 +1,6 @@
 ﻿using EmojiBot.Core.Domain;
 using NHibernate.Linq;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace EmojiBot.Web.Controllers
@@ -8,7 +9,12 @@ namespace EmojiBot.Web.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View(DatabaseSession.Query<Emoji>());
+			var emojis = DatabaseSession.Query<Emoji>()
+				.ToList()
+				.GroupBy(x => x.Category)
+				.OrderBy(x => x.Key == null ? int.MaxValue : x.Key.SortOrder);
+
+			return View(emojis);
 		}
 
 		public ActionResult TopBar()
