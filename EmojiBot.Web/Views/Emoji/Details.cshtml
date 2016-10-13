@@ -2,3 +2,14 @@
 @{
     ViewBag.Title = Model.Characters + " " + Model.Name;
 }
+
+<p>@Model.Description</p>
+
+@if (Model.Category != null)
+{
+    <h3>Category</h3>
+    <p>@Model.Category</p>
+}
+
+<h3>Keywords</h3>
+<p>@Model.Keywords</p>
