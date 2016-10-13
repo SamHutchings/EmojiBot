@@ -23,9 +23,11 @@ namespace EmojiBot.Web
 					  "~/Scripts/bootstrap.js",
 					  "~/Scripts/respond.js"));
 
-			bundles.Add(new StyleBundle("~/Content/css").Include(
-					  "~/Content/bootstrap.css",
-					  "~/Content/Site.css"));
+			var lessBundle = new LessBundle("~/css/main");
+			lessBundle.Include(
+				"~/Content/global.less");
+
+			bundles.Add(lessBundle);
 		}
 	}
 }
