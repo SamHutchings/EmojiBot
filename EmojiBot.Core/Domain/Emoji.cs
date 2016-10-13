@@ -11,6 +11,8 @@
 
 		public virtual DateTime Created { get; set; }
 
+		public virtual Category Category { get; set; }
+		
 		/// <summary>
 		/// The actual characters for the emoji
 		/// </summary>

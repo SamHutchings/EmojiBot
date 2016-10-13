@@ -1,22 +1,26 @@
-﻿@model IEnumerable<Emoji>
-@{
-    ViewBag.Title = "EmojiBot";
-}
+﻿@model IEnumerable<IGrouping<Category, Emoji>>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Emoji</th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+@foreach (var grouping in Model)
+{
+    if (grouping.Key == null)
+    {
+        <h3>Uncategorised</h3>
+    }
+    else
+    {
+        <h3>@grouping.Key.Name</h3>
+    }
+
+    <ul class="list-inline">
+        @foreach (var item in grouping.OrderBy(x => x.Name))
         {
-            <tr>
-                <td>@item.Characters</td>
-                <td>@item.Name</td>
-            </tr>
+            <li class="emoji-box">
+                <span class="emoji">@item.Characters</span>
+                <br />
+                <a href="@Url.Action("Details", "Emoji", new { characters = item.Characters })">
+                    <span>@item.Name</span>
+                </a>
+            </li>
         }
-    </tbody>
-</table>
+    </ul>
+}
