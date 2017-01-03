@@ -4,14 +4,45 @@ using System.Web.Http;
 using EmojiBot.Api.Models.Facebook.Inbound;
 using EmojiBot.Core.Search;
 using Ninject;
+using System.Web;
+using System.Configuration;
+using System.Net.Http;
+using System.Net;
+using System.Net.Http.Headers;
 
 namespace EmojiBot.Api.Controllers
 {
 	[AllowAnonymous]
 	public class MessageController : BaseApiController
 	{
+		string _verificationCode;
+
 		[Inject]
 		public IEmojiSearchService EmojiSearchService { get; set; }
+
+		public MessageController()
+		{
+			_verificationCode = ConfigurationManager.AppSettings["facebook.verification-code"];
+		}
+
+		public HttpResponseMessage Get()
+		{
+			var verifyToken = HttpContext.Current.Request.QueryString["hub.verify_token"];
+			var challenge = HttpContext.Current.Request.QueryString["hub.challenge"];
+
+			Log.InfoFormat("Request from facebook received: verify {0}, challenge {1}", verifyToken, challenge);
+
+			if (verifyToken != _verificationCode)
+			{
+				return new HttpResponseMessage(HttpStatusCode.BadRequest);
+			}
+
+			var response = new HttpResponseMessage(HttpStatusCode.OK);
+			response.Content = new StringContent(challenge);
+			response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+
+			return response;
+		}
 
 		public IHttpActionResult Post([FromBody]WebhookModel model)
 		{
